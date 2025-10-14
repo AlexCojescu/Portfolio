@@ -20,8 +20,44 @@ const Projects = () => {
 
   const projects = [
     {
-      title: "E-commerce Platform",
-      description: "Full-featured online store with payment integration",
+      title: "Digital AI Process Consultant",
+      description: "Integrate advanced agentic and generative AI solutions",
+      image: "/ProgrammaticLogo.png",
+      url: "https://www.imperialmobile.org/",
+      techIcons: [
+        { name: "React", src: "/react.png" },
+        { name: "CSS", src: "/css.png" },
+        { name: "Typescript", src: "/typescript.png" },
+        { name: "Node.js", src: "/nodejs.png" },
+      ]
+    },
+    {
+      title: "",
+      description: "",
+      video: "/NoCodeAIPlaybook.mp4", 
+      url: "https://whop.com/programmatic-078f/the-no-code-ai-playbook-95//",
+      techIcons: [
+        { name: "React", src: "/react.png" },
+        { name: "CSS", src: "/css.png" },
+        { name: "Typescript", src: "/typescript.png" },
+        { name: "Node.js", src: "/nodejs.png" },
+      ]
+    },
+    {
+      title: "",
+      description: "",
+      video: "/BuildingPersonalBrand.mp4", 
+      url: "https://whop.com/programmatic-078f/the-authority-signal//",
+      techIcons: [
+        { name: "React", src: "/react.png" },
+        { name: "CSS", src: "/css.png" },
+        { name: "Typescript", src: "/typescript.png" },
+        { name: "Node.js", src: "/nodejs.png" },
+      ]
+    },
+    {
+      title: "Mobile Detailing Business",
+      description: "Full-featured online webpage with payment integration",
       image: "https://imperialmobilegallery.b-cdn.net/HeroPageFR.jpg",
       url: "https://www.imperialmobile.org/",
       techIcons: [
@@ -79,7 +115,6 @@ const Projects = () => {
     },
   ];
 
-  // Simplified animation variants for mobile
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -93,13 +128,13 @@ const Projects = () => {
 
   const itemVariants = {
     hidden: { opacity: 0, y: isMobile ? 10 : 20 },
-    show: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { 
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
         duration: isMobile ? 0.3 : 0.5,
         ease: "easeOut"
-      } 
+      }
     },
   };
 
@@ -154,7 +189,24 @@ const Projects = () => {
                     boxShadow: isMobile ? "none" : "inset 0 0 80px rgba(0, 0, 0, 0.8)",
                   }}
                 >
-                  {project.image ? (
+                  {/* CONDITIONAL RENDERING: Display video if project.video exists, otherwise display the image */}
+                  {project.video ? (
+                    <video
+                      src={project.video}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className={`object-cover object-center w-full h-full rounded-lg ${
+                        isMobile 
+                          ? 'brightness-100' 
+                          : 'brightness-100 hover:brightness-75 transition-all duration-500 ease-out group-hover:scale-110'
+                      }`}
+                      style={{
+                        transform: isMobile ? 'none' : undefined,
+                      }}
+                    />
+                  ) : project.image ? (
                     <Image
                       src={project.image}
                       alt={project.title}
@@ -175,7 +227,7 @@ const Projects = () => {
                       <p className="text-gray-400">Image coming soon</p>
                     </div>
                   )}
-                  
+
                   {/* Mobile overlay for better text readability */}
                   {isMobile && (
                     <div className="absolute inset-0 bg-black/20 rounded-lg" />
@@ -189,10 +241,18 @@ const Projects = () => {
                     variants={itemVariants}
                   >
                     <p className="text-3xl md:text-4xl lg:text-5xl font-bold group-hover:text-5xl lg:group-hover:text-6xl transition-all duration-300">
-                      {project.title}
+                      {project.title === "Image Upscaling" ? (
+                        <span className="text-black">{project.title}</span>
+                      ) : (
+                        project.title
+                      )}
                     </p>
                     <p className="text-xl md:text-2xl text-gray-300 mt-1 group-hover:text-2xl md:group-hover:text-3xl transition-all duration-300">
-                      {project.description}
+                      {project.title === "Image Upscaling" ? (
+                        <span className="text-black">{project.description}</span>
+                      ) : (
+                        project.description
+                      )}
                     </p>
                   </motion.div>
                 )}
@@ -208,7 +268,7 @@ const Projects = () => {
                         Learn More <span className="text-lg">→</span>
                       </button>
                     </Link>
-                    
+
                     <div className="flex gap-2">
                       {project.techIcons.slice(0, 4).map((icon, index) => (
                         <motion.div
@@ -269,7 +329,7 @@ const Projects = () => {
                 )}
 
                 {/* Animated Line - Desktop Only */}
-                {!isMobile && project.image && (
+                {!isMobile && (project.image || project.video) && (
                   <motion.span
                     className="absolute h-1 bg-white left-1/2 transform -translate-x-1/2"
                     style={{ bottom: "-12px" }}
@@ -282,7 +342,7 @@ const Projects = () => {
               </motion.div>
 
               {/* Desktop Animated Line - Outside the project container */}
-              {!isMobile && project.image && (
+              {!isMobile && (project.image || project.video) && (
                 <motion.span
                   className="absolute h-1 bg-white left-1/2 transform -translate-x-1/2"
                   style={{ bottom: "-12px" }}
@@ -292,7 +352,7 @@ const Projects = () => {
                   transition={{ duration: 1, ease: "easeInOut" }}
                 />
               )}
-              </motion.div>
+            </motion.div>
           ))}
         </div>
       </div>
