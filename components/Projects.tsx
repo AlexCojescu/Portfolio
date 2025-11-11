@@ -5,6 +5,19 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
+type TechIcon = {
+  name: string;
+  src: string;
+};
+
+type Project = {
+  title: string;
+  description: string;
+  image?: string;
+  url: string;
+  techIcons: TechIcon[];
+};
+
 const Projects = () => {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -18,12 +31,25 @@ const Projects = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const projects = [
+  const projects: Project[] = [
     {
       title: "Digital AI Process Consultant",
       description: "Integrate advanced agentic and generative AI solutions",
-      image: "/ProgrammaticLogo.png",
-      url: "https://www.imperialmobile.org/",
+      image: "/LogoLargeSpace.png",
+      url: "https://myprogrammatic.com/",
+      techIcons: [
+        { name: "React", src: "/react.png" },
+        { name: "CSS", src: "/css.png" },
+        { name: "Typescript", src: "/typescript.png" },
+        { name: "Node.js", src: "/nodejs.png" },
+        { name: "Stripe", src: "/stripe.png" },
+      ]
+    },
+    {
+      title: "",
+      description: "",
+      image: "/Gumroad.png", 
+      url: "https://programmatic.gumroad.com/",
       techIcons: [
         { name: "React", src: "/react.png" },
         { name: "CSS", src: "/css.png" },
@@ -34,20 +60,8 @@ const Projects = () => {
     {
       title: "",
       description: "",
-      video: "/NoCodeAIPlaybook.mp4", 
-      url: "https://whop.com/programmatic-078f/the-no-code-ai-playbook-95//",
-      techIcons: [
-        { name: "React", src: "/react.png" },
-        { name: "CSS", src: "/css.png" },
-        { name: "Typescript", src: "/typescript.png" },
-        { name: "Node.js", src: "/nodejs.png" },
-      ]
-    },
-    {
-      title: "",
-      description: "",
-      video: "/BuildingPersonalBrand.mp4", 
-      url: "https://whop.com/programmatic-078f/the-authority-signal//",
+      image: "/Whop3.png",
+      url: "https://whop.com/programmatic-078f/",
       techIcons: [
         { name: "React", src: "/react.png" },
         { name: "CSS", src: "/css.png" },
@@ -57,55 +71,9 @@ const Projects = () => {
     },
     {
       title: "Mobile Detailing Business",
-      description: "Full-featured online webpage with payment integration",
+      description: "Complete gallery and booking experience",
       image: "https://imperialmobilegallery.b-cdn.net/HeroPageFR.jpg",
       url: "https://www.imperialmobile.org/",
-      techIcons: [
-        { name: "React", src: "/react.png" },
-        { name: "CSS", src: "/css.png" },
-        { name: "Typescript", src: "/typescript.png" },
-        { name: "Node.js", src: "/nodejs.png" },
-      ]
-    },
-    {
-      title: "3JS FPS",
-      description: "Creative showcase for designers and artists",
-      image: "/ZombieShooter.png",
-      url: "https://3js-fps-project.com",
-      techIcons: [
-        { name: "Three.js", src: "/threejs.png" },
-        { name: "Html", src: "/html.png" },
-        { name: "CSS", src: "/Css.png" },
-      ]
-    },
-    {
-      title: "3JS Constellations",
-      description: "Creative showcase for designers and artists",
-      image: "/Constellations.png",
-      url: "https://3js-constellations.com",
-      techIcons: [
-        { name: "Three.js", src: "/threejs.png" },
-        { name: "Html", src: "/html.png" },
-        { name: "CSS", src: "/Css.png" },
-      ]
-    },
-    {
-      title: "Python Deepfake",
-      description: "In the process..",
-      image: "/placeholder-image.png",
-      url: "https://python-deepfake-project.com",
-      techIcons: [
-        { name: "React", src: "/react.png" },
-        { name: "CSS", src: "/css.png" },
-        { name: "Typescript", src: "/typescript.png" },
-        { name: "Node.js", src: "/nodejs.png" },
-      ]
-    },
-    {
-      title: "Image Upscaling",
-      description: "Creative showcase for designers and artists",
-      image: "/upscale.png",
-      url: "https://image-upscaling-project.com",
       techIcons: [
         { name: "React", src: "/react.png" },
         { name: "CSS", src: "/css.png" },
@@ -189,24 +157,7 @@ const Projects = () => {
                     boxShadow: isMobile ? "none" : "inset 0 0 80px rgba(0, 0, 0, 0.8)",
                   }}
                 >
-                  {/* CONDITIONAL RENDERING: Display video if project.video exists, otherwise display the image */}
-                  {project.video ? (
-                    <video
-                      src={project.video}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className={`object-cover object-center w-full h-full rounded-lg ${
-                        isMobile 
-                          ? 'brightness-100' 
-                          : 'brightness-100 hover:brightness-75 transition-all duration-500 ease-out group-hover:scale-110'
-                      }`}
-                      style={{
-                        transform: isMobile ? 'none' : undefined,
-                      }}
-                    />
-                  ) : project.image ? (
+                  {project.image ? (
                     <Image
                       src={project.image}
                       alt={project.title}
@@ -241,18 +192,10 @@ const Projects = () => {
                     variants={itemVariants}
                   >
                     <p className="text-3xl md:text-4xl lg:text-5xl font-bold group-hover:text-5xl lg:group-hover:text-6xl transition-all duration-300">
-                      {project.title === "Image Upscaling" ? (
-                        <span className="text-black">{project.title}</span>
-                      ) : (
-                        project.title
-                      )}
+                      {project.title}
                     </p>
                     <p className="text-xl md:text-2xl text-gray-300 mt-1 group-hover:text-2xl md:group-hover:text-3xl transition-all duration-300">
-                      {project.title === "Image Upscaling" ? (
-                        <span className="text-black">{project.description}</span>
-                      ) : (
-                        project.description
-                      )}
+                      {project.description}
                     </p>
                   </motion.div>
                 )}
@@ -268,7 +211,6 @@ const Projects = () => {
                         Learn More <span className="text-lg">→</span>
                       </button>
                     </Link>
-
                     <div className="flex gap-2">
                       {project.techIcons.slice(0, 4).map((icon, index) => (
                         <motion.div
@@ -301,7 +243,6 @@ const Projects = () => {
                         </button>
                       </Link>
                     </motion.div>
-
                     {/* Desktop Tech Icons */}
                     <motion.div
                       className="absolute bottom-8 sm:bottom-6 right-6 flex gap-3 md:gap-4 transition-all duration-300"
@@ -314,7 +255,7 @@ const Projects = () => {
                           style={{ transitionDelay: `${index * 100}ms` }}
                           variants={itemVariants}
                         >
-                          <Image
+                         <Image 
                             src={icon.src}
                             alt={icon.name}
                             width={40}
@@ -327,31 +268,7 @@ const Projects = () => {
                     </motion.div>
                   </>
                 )}
-
-                {/* Animated Line - Desktop Only */}
-                {!isMobile && (project.image || project.video) && (
-                  <motion.span
-                    className="absolute h-1 bg-white left-1/2 transform -translate-x-1/2"
-                    style={{ bottom: "-12px" }}
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "100%" }}
-                    viewport={{ once: true, amount: 0.8 }}
-                    transition={{ duration: 1, ease: "easeInOut" }}
-                  />
-                )}
               </motion.div>
-
-              {/* Desktop Animated Line - Outside the project container */}
-              {!isMobile && (project.image || project.video) && (
-                <motion.span
-                  className="absolute h-1 bg-white left-1/2 transform -translate-x-1/2"
-                  style={{ bottom: "-12px" }}
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "100%" }}
-                  viewport={{ once: true, amount: 0.8 }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
-                />
-              )}
             </motion.div>
           ))}
         </div>

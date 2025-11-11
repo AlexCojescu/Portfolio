@@ -24,7 +24,7 @@ const Experience = () => {
         {/* Timeline Line with responsive height adjustments */}
         <div className="absolute left-6 w-2 bg-white
           /* Base height for mobile/portrait */
-          top-12 bottom-28
+          top-12 bottom-24
           /* Medium screens */
           md:bottom-20
           /* Larger screens */

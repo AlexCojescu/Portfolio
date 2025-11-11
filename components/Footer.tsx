@@ -22,14 +22,14 @@ const Footer = () => {
             <Link href="/contact">Contact</Link>
           </FooterColumn>
           <FooterColumn title="Contact">
-            <p>Email: example@example.com</p>
-            <p>Phone: (123) 456-7890</p>
+            <p>Email: alexandru@techliberate.com</p>
+            <p>Phone: (424) 378-9749</p>
           </FooterColumn>
         </div>
 
         {/* Copyright */}
         <p className="text-center text-sm text-gray-400">
-          &copy; {new Date().getFullYear()} MyPortfolio. All rights reserved.
+          &copy; {new Date().getFullYear()} AlexandruCojescu. All rights reserved.
         </p>
       </div>
     </footer>

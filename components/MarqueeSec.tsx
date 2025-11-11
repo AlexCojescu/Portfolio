@@ -47,6 +47,7 @@ const MarqueeSec = () => {
               <IconWithText src="/css.png" alt="CSS" label="CSS" />
               <IconWithText src="/c++.png" alt="C++" label="C++" />
               <IconWithText src="/Julia.png" alt="Julia" label="Julia" />
+              <IconWithText src="/langchain.png" alt="Langchain" label="Langchain" />
             </div>
           </Marquee>
         </div>
