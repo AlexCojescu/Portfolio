@@ -5,17 +5,14 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-type TechIcon = {
-  name: string;
-  src: string;
-};
-
+// Define the type for each project (includes video)
 type Project = {
   title: string;
   description: string;
-  image?: string;
+  image: string;
   url: string;
-  techIcons: TechIcon[];
+  techIcons: { name: string; src: string }[];
+  video?: string; // video is optional
 };
 
 const Projects = () => {
@@ -25,25 +22,26 @@ const Projects = () => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Example: All objects now include optional video property
   const projects: Project[] = [
     {
       title: "Digital AI Process Consultant",
       description: "Integrate advanced agentic and generative AI solutions",
       image: "/LogoLargeSpace.png",
-      url: "https://myprogrammatic.com/",
+      url: "https://www.imperialmobile.org/",
       techIcons: [
         { name: "React", src: "/react.png" },
         { name: "CSS", src: "/css.png" },
         { name: "Typescript", src: "/typescript.png" },
         { name: "Node.js", src: "/nodejs.png" },
         { name: "Stripe", src: "/stripe.png" },
-      ]
+      ],
+      video: undefined // no video for this project
     },
     {
       title: "",
@@ -55,7 +53,8 @@ const Projects = () => {
         { name: "CSS", src: "/css.png" },
         { name: "Typescript", src: "/typescript.png" },
         { name: "Node.js", src: "/nodejs.png" },
-      ]
+      ],
+      video: undefined
     },
     {
       title: "",
@@ -67,7 +66,8 @@ const Projects = () => {
         { name: "CSS", src: "/css.png" },
         { name: "Typescript", src: "/typescript.png" },
         { name: "Node.js", src: "/nodejs.png" },
-      ]
+      ],
+      video: undefined
     },
     {
       title: "Mobile Detailing Business",
@@ -79,7 +79,8 @@ const Projects = () => {
         { name: "CSS", src: "/css.png" },
         { name: "Typescript", src: "/typescript.png" },
         { name: "Node.js", src: "/nodejs.png" },
-      ]
+      ],
+      video: undefined
     },
   ];
 
@@ -130,24 +131,30 @@ const Projects = () => {
               variants={containerVariants}
             >
               {/* Mobile Title - Above Image */}
-              {isMobile && (
-                <motion.div
-                  className="mb-4 text-center px-2"
-                  variants={itemVariants}
-                >
-                  <p className="text-xl sm:text-2xl font-bold">
-                    {project.title}
-                  </p>
-                  <p className="text-base sm:text-lg text-gray-300 mt-1">
-                    {project.description}
-                  </p>
-                </motion.div>
-              )}
+{isMobile && (
+  <motion.div
+    className="mb-4 text-center px-2"
+    variants={itemVariants}
+  >
+    <p
+      className={`text-xl sm:text-2xl font-bold ${
+        project.title === "Digital AI Process Consultant" ? "text-black" : ""
+      }`}
+    >
+      {project.title}
+    </p>
+    <p
+      className={`text-base sm:text-lg mt-1 ${
+        project.title === "Digital AI Process Consultant" ? "text-black" : "text-gray-300"
+      }`}
+    >
+      {project.description}
+    </p>
+  </motion.div>
+)}
 
               <motion.div
-                className={`group relative overflow-hidden rounded-lg w-full ${
-                  isMobile ? 'px-2' : ''
-                }`}
+                className={`group relative overflow-hidden rounded-lg w-full ${isMobile ? 'px-2' : ''}`}
                 variants={itemVariants}
               >
                 <div
@@ -157,7 +164,24 @@ const Projects = () => {
                     boxShadow: isMobile ? "none" : "inset 0 0 80px rgba(0, 0, 0, 0.8)",
                   }}
                 >
-                  {project.image ? (
+                  {/* CONDITIONAL RENDERING: Display video if project.video exists, otherwise display the image */}
+                  {project.video ? (
+                    <video
+                      src={project.video}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className={`object-cover object-center w-full h-full rounded-lg ${
+                        isMobile 
+                          ? 'brightness-100' 
+                          : 'brightness-100 hover:brightness-75 transition-all duration-500 ease-out group-hover:scale-110'
+                      }`}
+                      style={{
+                        transform: isMobile ? 'none' : undefined,
+                      }}
+                    />
+                  ) : project.image ? (
                     <Image
                       src={project.image}
                       alt={project.title}
@@ -187,18 +211,26 @@ const Projects = () => {
 
                 {/* Desktop Title - Overlay on Image */}
                 {!isMobile && (
-                  <motion.div
-                    className="absolute top-6 left-6 transition-all duration-300 group-hover:translate-y-4"
-                    variants={itemVariants}
-                  >
-                    <p className="text-3xl md:text-4xl lg:text-5xl font-bold group-hover:text-5xl lg:group-hover:text-6xl transition-all duration-300">
-                      {project.title}
-                    </p>
-                    <p className="text-xl md:text-2xl text-gray-300 mt-1 group-hover:text-2xl md:group-hover:text-3xl transition-all duration-300">
-                      {project.description}
-                    </p>
-                  </motion.div>
-                )}
+  <motion.div
+    className="absolute top-6 left-6 transition-all duration-300 group-hover:translate-y-4"
+    variants={itemVariants}
+  >
+    <p
+      className={`text-3xl md:text-4xl lg:text-5xl font-bold group-hover:text-5xl lg:group-hover:text-6xl transition-all duration-300 ${
+        project.title === "Digital AI Process Consultant" ? "text-black" : ""
+      }`}
+    >
+      {project.title}
+    </p>
+    <p
+      className={`text-xl md:text-2xl mt-1 group-hover:text-2xl md:group-hover:text-3xl transition-all duration-300 ${
+        project.title === "Digital AI Process Consultant" ? "text-black" : "text-gray-300"
+      }`}
+    >
+      {project.description}
+    </p>
+  </motion.div>
+)}
 
                 {/* Mobile Bottom Controls */}
                 {isMobile ? (
@@ -255,7 +287,7 @@ const Projects = () => {
                           style={{ transitionDelay: `${index * 100}ms` }}
                           variants={itemVariants}
                         >
-                         <Image 
+                          <Image
                             src={icon.src}
                             alt={icon.name}
                             width={40}
@@ -268,7 +300,31 @@ const Projects = () => {
                     </motion.div>
                   </>
                 )}
+
+                {/* Animated Line - Desktop Only */}
+                {!isMobile && (project.image || project.video) && (
+                  <motion.span
+                    className="absolute h-1 bg-white left-1/2 transform -translate-x-1/2"
+                    style={{ bottom: "-12px" }}
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true, amount: 0.8 }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                  />
+                )}
               </motion.div>
+
+              {/* Desktop Animated Line - Outside the project container */}
+              {!isMobile && (project.image || project.video) && (
+                <motion.span
+                  className="absolute h-1 bg-white left-1/2 transform -translate-x-1/2"
+                  style={{ bottom: "-12px" }}
+                  initial={{ width: 0 }}
+                  whileInView={{ width: "100%" }}
+                  viewport={{ once: true, amount: 0.8 }}
+                  transition={{ duration: 1, ease: "easeInOut" }}
+                />
+              )}
             </motion.div>
           ))}
         </div>

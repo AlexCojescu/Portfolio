@@ -1,7 +1,8 @@
 import React from 'react';
-import { FaGlobe, FaGithub } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa"; // FaGlobe removed
 import { PiCopyBold } from "react-icons/pi";
 import { HiAcademicCap, HiOutlineLightBulb, HiOutlineUserGroup } from "react-icons/hi2";
+import Image from "next/image"; // Next.js Image import
 
 const projects = [
   {
@@ -48,7 +49,7 @@ const projects = [
   }
 ];
 
-// Placeholder images (replace with real ones)
+// Placeholder images (ensure these exist in /public)
 const projectImages = [
   "/TimeOptimization.png",
   "/DeepFake.png",
@@ -68,10 +69,14 @@ export default function ProjectCards() {
             className="flex flex-col items-start bg-neutral-800 rounded-3xl w-full p-6 shadow-[0_8px_32px_0_rgba(255,255,255,0.15)]"
           >
             <div className="w-full h-40 bg-gradient-to-t from-neutral-800 via-neutral-700 to-neutral-600 rounded-xl mb-4 flex items-end justify-center relative overflow-hidden">
-              <img
+              <Image
                 src={projectImages[idx]}
                 alt={proj.title}
+                fill
                 className="object-cover w-full h-full rounded-xl"
+                sizes="(max-width: 768px) 100vw, 400px"
+                priority={idx < 2}
+                unoptimized={false} // Set true for external images or if outside /public
               />
             </div>
             <h2 className="font-semibold text-2xl mb-3 text-white">{proj.title}</h2>
