@@ -2,34 +2,40 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 
-// Define the type for each project (includes video)
 type Project = {
+  id: string;
   title: string;
   description: string;
   image: string;
   url: string;
   techIcons: { name: string; src: string }[];
-  video?: string; // video is optional
+  video?: string;
 };
 
+const MOBILE_BREAKPOINT = 768;
+
 const Projects = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
     };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
-  // Example: All objects now include optional video property
+  // prevent hydration mismatch: wait until we know isMobile
+  if (isMobile === null) return null;
+
   const projects: Project[] = [
     {
+      id: "digital-ai-consultant",
       title: "Digital AI Process Consultant",
       description: "Integrate advanced agentic and generative AI solutions",
       image: "/LogoLargeSpace.png",
@@ -41,35 +47,10 @@ const Projects = () => {
         { name: "Node.js", src: "/nodejs.png" },
         { name: "Stripe", src: "/stripe.png" },
       ],
-      video: undefined // no video for this project
+      video: undefined,
     },
     {
-      title: "",
-      description: "",
-      image: "/Gumroad.png", 
-      url: "https://programmatic.gumroad.com/",
-      techIcons: [
-        { name: "React", src: "/react.png" },
-        { name: "CSS", src: "/css.png" },
-        { name: "Typescript", src: "/typescript.png" },
-        { name: "Node.js", src: "/nodejs.png" },
-      ],
-      video: undefined
-    },
-    {
-      title: "",
-      description: "",
-      image: "/Whop3.png",
-      url: "https://whop.com/programmatic-078f/",
-      techIcons: [
-        { name: "React", src: "/react.png" },
-        { name: "CSS", src: "/css.png" },
-        { name: "Typescript", src: "/typescript.png" },
-        { name: "Node.js", src: "/nodejs.png" },
-      ],
-      video: undefined
-    },
-    {
+      id: "mobile-detailing",
       title: "Mobile Detailing Business",
       description: "Complete gallery and booking experience",
       image: "https://imperialmobilegallery.b-cdn.net/HeroPageFR.jpg",
@@ -80,35 +61,82 @@ const Projects = () => {
         { name: "Typescript", src: "/typescript.png" },
         { name: "Node.js", src: "/nodejs.png" },
       ],
-      video: undefined
+      video: undefined,
+    },
+    {
+      id: "clothing-store",
+      title: "Clothing Store",
+      description: "Complete gallery and booking experience",
+      image: "https://ImperialMobileGallery.b-cdn.net/IMG_2208%202.jpg",
+      url: "https://www.vetteclothing.com/",
+      techIcons: [
+        { name: "React", src: "/react.png" },
+        { name: "CSS", src: "/css.png" },
+        { name: "Typescript", src: "/typescript.png" },
+        { name: "Node.js", src: "/nodejs.png" },
+      ],
+      video: undefined,
+    },
+    {
+      id: "gumroad",
+      title: "Gumroad Store",
+      description: "Digital products marketplace",
+      image: "/Gumroad.png",
+      url: "https://programmatic.gumroad.com/",
+      techIcons: [
+        { name: "React", src: "/react.png" },
+        { name: "CSS", src: "/css.png" },
+        { name: "Typescript", src: "/typescript.png" },
+        { name: "Node.js", src: "/nodejs.png" },
+      ],
+      video: undefined,
+    },
+    {
+      id: "whop",
+      title: "Whop Marketplace",
+      description: "Digital products and services platform",
+      image: "/Whop3.png",
+      url: "https://whop.com/programmatic-078f/",
+      techIcons: [
+        { name: "React", src: "/react.png" },
+        { name: "CSS", src: "/css.png" },
+        { name: "Typescript", src: "/typescript.png" },
+        { name: "Node.js", src: "/nodejs.png" },
+      ],
+      video: undefined,
     },
   ];
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: isMobile ? 0.1 : 0.2,
+        staggerChildren: isMobile ? 0.08 : 0.2,
         duration: isMobile ? 0.3 : 0.5,
       },
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: isMobile ? 10 : 20 },
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: isMobile ? 8 : 20 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: isMobile ? 0.3 : 0.5,
-        ease: "easeOut"
-      }
+        duration: isMobile ? 0.25 : 0.5,
+        ease: [0.4, 0, 0.2, 1] as const,
+      },
     },
   };
 
+  const hasBlackText = (title: string) =>
+    title === "Digital AI Process Consultant" ||
+    title === "Clothing Store" ||
+    title === "Whop Marketplace";
+
   return (
-    <div className="bg-black text-white py-12 md:py-20 px-4 md:px-6">
+    <div className="bg-black text-white py-10 md:py-20 px-4 md:px-6">
       <div className="w-full max-w-4xl mx-auto">
         <motion.h1
           className="text-3xl md:text-5xl font-bold mb-8 md:mb-12 text-center md:text-left"
@@ -120,51 +148,49 @@ const Projects = () => {
           My Work
         </motion.h1>
 
-        <div className="space-y-12 md:space-y-20 lg:space-y-24">
+        <div className="space-y-10 md:space-y-20 lg:space-y-24">
           {projects.map((project, projectIndex) => (
             <motion.div
-              key={projectIndex}
+              key={project.id}
               className="relative"
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, margin: isMobile ? "-50px 0px" : "-100px 0px" }}
+              viewport={{
+                once: true,
+                margin: isMobile ? "-40px 0px" : "-100px 0px",
+              }}
               variants={containerVariants}
             >
-              {/* Mobile Title - Above Image */}
-{isMobile && (
-  <motion.div
-    className="mb-4 text-center px-2"
-    variants={itemVariants}
-  >
-    <p
-      className={`text-xl sm:text-2xl font-bold ${
-        project.title === "Digital AI Process Consultant" ? "text-black" : ""
-      }`}
-    >
-      {project.title}
-    </p>
-    <p
-      className={`text-base sm:text-lg mt-1 ${
-        project.title === "Digital AI Process Consultant" ? "text-black" : "text-gray-300"
-      }`}
-    >
-      {project.description}
-    </p>
-  </motion.div>
-)}
+              {/* Mobile Title */}
+              {isMobile && (
+                <motion.div
+                  className="mb-3 text-center px-1"
+                  variants={itemVariants}
+                >
+                  <p className="text-lg sm:text-xl font-semibold text-white">
+                    {project.title}
+                  </p>
+                  <p className="text-sm sm:text-base mt-1 text-gray-300">
+                    {project.description}
+                  </p>
+                </motion.div>
+              )}
 
               <motion.div
-                className={`group relative overflow-hidden rounded-lg w-full ${isMobile ? 'px-2' : ''}`}
+                className={`group relative overflow-hidden rounded-lg w-full ${
+                  isMobile ? "px-0" : ""
+                }`}
                 variants={itemVariants}
               >
                 <div
                   className="relative w-full h-full rounded-lg overflow-hidden"
                   style={{
-                    aspectRatio: isMobile ? "4 / 3" : "5 / 3",
-                    boxShadow: isMobile ? "none" : "inset 0 0 80px rgba(0, 0, 0, 0.8)",
+                    aspectRatio: isMobile ? "16 / 9" : "5 / 3",
+                    boxShadow: isMobile
+                      ? "none"
+                      : "inset 0 0 80px rgba(0, 0, 0, 0.8)",
                   }}
                 >
-                  {/* CONDITIONAL RENDERING: Display video if project.video exists, otherwise display the image */}
                   {project.video ? (
                     <video
                       src={project.video}
@@ -173,109 +199,119 @@ const Projects = () => {
                       muted
                       playsInline
                       className={`object-cover object-center w-full h-full rounded-lg ${
-                        isMobile 
-                          ? 'brightness-100' 
-                          : 'brightness-100 hover:brightness-75 transition-all duration-500 ease-out group-hover:scale-110'
+                        isMobile
+                          ? "brightness-100"
+                          : "brightness-100 hover:brightness-75 transition-all duration-500 ease-out group-hover:scale-110"
                       }`}
-                      style={{
-                        transform: isMobile ? 'none' : undefined,
-                      }}
                     />
                   ) : project.image ? (
                     <Image
                       src={project.image}
-                      alt={project.title}
+                      alt={
+                        project.title ||
+                        project.description ||
+                        `Project ${projectIndex + 1}`
+                      }
                       fill
                       priority={projectIndex < 2}
-                      sizes={isMobile ? "100vw" : "(max-width: 768px) 100vw, 800px"}
+                      sizes={
+                        isMobile ? "100vw" : "(max-width: 768px) 100vw, 800px"
+                      }
                       className={`object-cover object-center rounded-lg ${
-                        isMobile 
-                          ? 'brightness-100' 
-                          : 'brightness-100 hover:brightness-75 transition-all duration-500 ease-out group-hover:scale-110'
+                        isMobile
+                          ? "brightness-100"
+                          : "brightness-100 hover:brightness-75 transition-all duration-500 ease-out group-hover:scale-110"
                       }`}
-                      style={{
-                        transform: isMobile ? 'none' : undefined,
-                      }}
+                      unoptimized={project.image.startsWith("http")}
                     />
                   ) : (
                     <div className="w-full h-full bg-gray-700 flex items-center justify-center rounded-lg">
-                      <p className="text-gray-400">Image coming soon</p>
+                      <p className="text-gray-400 text-sm">
+                        Image coming soon
+                      </p>
                     </div>
                   )}
 
-                  {/* Mobile overlay for better text readability */}
                   {isMobile && (
-                    <div className="absolute inset-0 bg-black/20 rounded-lg" />
+                    <div className="absolute inset-0 bg-black/20 rounded-lg pointer-events-none" />
                   )}
                 </div>
 
-                {/* Desktop Title - Overlay on Image */}
+                {/* Desktop title overlay – unchanged */}
                 {!isMobile && (
-  <motion.div
-    className="absolute top-6 left-6 transition-all duration-300 group-hover:translate-y-4"
-    variants={itemVariants}
-  >
-    <p
-      className={`text-3xl md:text-4xl lg:text-5xl font-bold group-hover:text-5xl lg:group-hover:text-6xl transition-all duration-300 ${
-        project.title === "Digital AI Process Consultant" ? "text-black" : ""
-      }`}
-    >
-      {project.title}
-    </p>
-    <p
-      className={`text-xl md:text-2xl mt-1 group-hover:text-2xl md:group-hover:text-3xl transition-all duration-300 ${
-        project.title === "Digital AI Process Consultant" ? "text-black" : "text-gray-300"
-      }`}
-    >
-      {project.description}
-    </p>
-  </motion.div>
-)}
-
-                {/* Mobile Bottom Controls */}
-                {isMobile ? (
                   <motion.div
-                    className="mt-4 flex justify-between items-center px-2"
+                    className="absolute top-6 left-6 transition-all duration-300 group-hover:translate-y-4"
                     variants={itemVariants}
                   >
-                    <Link href={project.url} target="_blank" rel="noopener noreferrer">
-                      <button className="bg-white text-black px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition-colors flex items-center gap-2 touch-manipulation">
-                        Learn More <span className="text-lg">→</span>
+                    <p
+                      className={`text-3xl md:text-4xl lg:text-5xl font-bold group-hover:text-5xl lg:group-hover:text-6xl transition-all duration-300 ${
+                        hasBlackText(project.title) ? "text-black" : ""
+                      }`}
+                    >
+                      {project.title}
+                    </p>
+                    <p
+                      className={`text-xl md:text-2xl mt-1 group-hover:text-2xl md:group-hover:text-3xl transition-all duration-300 ${
+                        hasBlackText(project.title)
+                          ? "text-black"
+                          : "text-gray-300"
+                      }`}
+                    >
+                      {project.description}
+                    </p>
+                  </motion.div>
+                )}
+
+                {/* Mobile controls */}
+                {isMobile ? (
+                  <motion.div
+                    className="mt-3 flex items-center justify-between gap-3 px-0"
+                    variants={itemVariants}
+                  >
+                    <Link
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1"
+                    >
+                      <button className="w-full bg-white text-black px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 touch-manipulation">
+                        Learn More <span className="text-base">→</span>
                       </button>
                     </Link>
-                    <div className="flex gap-2">
-                      {project.techIcons.slice(0, 4).map((icon, index) => (
-                        <motion.div
+                    <div className="flex gap-2 flex-shrink-0">
+                      {project.techIcons.slice(0, 3).map((icon) => (
+                        <Image
                           key={icon.name}
-                          variants={itemVariants}
-                          transition={{ delay: index * 0.1 }}
-                        >
-                          <Image
-                            src={icon.src}
-                            alt={icon.name}
-                            width={32}
-                            height={32}
-                            className="w-8 h-8 object-contain"
-                            title={icon.name}
-                          />
-                        </motion.div>
+                          src={icon.src}
+                          alt={icon.name}
+                          width={28}
+                          height={28}
+                          className="w-7 h-7 object-contain"
+                          title={icon.name}
+                        />
                       ))}
                     </div>
                   </motion.div>
                 ) : (
                   <>
-                    {/* Desktop Learn More Button */}
+                    {/* Desktop button & icons – unchanged */}
                     <motion.div
                       className="absolute bottom-8 sm:bottom-6 left-6 opacity-0 transition-all duration-300 group-hover:opacity-100"
                       variants={itemVariants}
                     >
-                      <Link href={project.url} target="_blank" rel="noopener noreferrer">
+                      <Link
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <button className="bg-white text-[#181414] px-4 py-2 md:px-6 md:py-3 text-base md:text-xl rounded-lg font-bold hover:bg-gray-200 transition-all flex items-center gap-2">
-                          Learn More <span className="text-lg md:text-2xl transition-all duration-300">→</span>
+                          Learn More{" "}
+                          <span className="text-lg md:text-2xl transition-all duration-300">
+                            →
+                          </span>
                         </button>
                       </Link>
                     </motion.div>
-                    {/* Desktop Tech Icons */}
                     <motion.div
                       className="absolute bottom-8 sm:bottom-6 right-6 flex gap-3 md:gap-4 transition-all duration-300"
                       variants={itemVariants}
@@ -301,7 +337,7 @@ const Projects = () => {
                   </>
                 )}
 
-                {/* Animated Line - Desktop Only */}
+                {/* Desktop animated line – unchanged */}
                 {!isMobile && (project.image || project.video) && (
                   <motion.span
                     className="absolute h-1 bg-white left-1/2 transform -translate-x-1/2"
@@ -314,7 +350,6 @@ const Projects = () => {
                 )}
               </motion.div>
 
-              {/* Desktop Animated Line - Outside the project container */}
               {!isMobile && (project.image || project.video) && (
                 <motion.span
                   className="absolute h-1 bg-white left-1/2 transform -translate-x-1/2"

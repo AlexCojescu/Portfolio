@@ -2,10 +2,7 @@ import { NextConfig } from 'next'; // Import NextConfig type
 
 const nextConfig: NextConfig = {
   images: {
-    // Define allowed image domains
-    domains: ['imperialmobilegallery.b-cdn.net'], // ✅ Ensure lowercase
-
-    // Define remote image patterns
+    // Define remote image patterns (domains is deprecated)
     remotePatterns: [
       {
         protocol: 'https',

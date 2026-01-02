@@ -16,9 +16,10 @@ const License = () => {
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold relative inline-block">
         {title}
         <span
-          className={`absolute left-0 bottom-0 h-1 bg-white -mb-1 md:-mb-2 transition-all duration-\\[2000ms\\] ease-in-out ${
+          className={`absolute left-0 bottom-0 h-1 bg-white -mb-1 md:-mb-2 transition-all ease-in-out ${
             isLoaded ? 'w-full' : 'w-0'
           }`}
+          style={{ transitionDuration: '2000ms' }}
         ></span>
       </h1>
     </div>

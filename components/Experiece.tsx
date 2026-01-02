@@ -16,7 +16,10 @@ const Experience = () => {
         <h1 className="text-4xl font-bold text-white relative inline-block">
           Skills & Experience
           {/* MODIFIED: Changed duration-1000 to duration-[2000ms] for a 2-second animation */}
-          <span className={`absolute left-0 bottom-0 h-1 bg-white -mb-2 transition-all duration-\\[2000ms\\] ease-in-out ${isLoaded ? 'w-full' : 'w-0'}`}></span>
+          <span 
+            className={`absolute left-0 bottom-0 h-1 bg-white -mb-2 transition-all ease-in-out ${isLoaded ? 'w-full' : 'w-0'}`}
+            style={{ transitionDuration: '2000ms' }}
+          ></span>
         </h1>
       </div>
 
