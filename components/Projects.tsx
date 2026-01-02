@@ -39,7 +39,7 @@ const Projects = () => {
       title: "Digital AI Process Consultant",
       description: "Integrate advanced agentic and generative AI solutions",
       image: "/LogoLargeSpace.png",
-      url: "https://www.imperialmobile.org/",
+      url: "https://programmatic.it.com//",
       techIcons: [
         { name: "React", src: "/react.png" },
         { name: "CSS", src: "/css.png" },
